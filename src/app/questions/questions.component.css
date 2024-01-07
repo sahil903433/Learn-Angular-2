@@ -1,0 +1,86 @@
+.banner{
+  background-color:#337ab7;
+  color:white;
+  display:block;
+  text-align: center;
+}
+.inlineForm{
+  border-bottom: 1px solid  #0b3e6f;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+#MenuSide{
+  float:left;
+
+  border-right: solid 1px #0b3e6f;
+  overflow:hidden;
+}
+body{
+  font-family:'Roboto', "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  color:#404C51;
+}
+
+#MenuSide li{
+  padding:6px;
+}
+
+#textDialog form {
+  padding-top:15px;
+}
+
+#textDialog .ui-dialog-titlebar{
+  background-color:#337ab7;
+  margin:0px;
+}
+#textDialog .ui-dialog-title .ui-dialog-titlebar-close{
+  color:white;
+}
+
+.question-btn-block{
+  padding:5px;
+  position: relative;
+}
+.well {
+  margin-bottom: 5px;
+}
+
+.right-corner-btn{
+  position:absolute;
+  top:0;
+  right:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.right-corner-btn .btn{
+  padding-top:3px;
+  padding-bottom:3px;
+}
+
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.component-dropbox{
+  margin-left: 15px;
+}
+.custom-dropdown >>> .ui-dropdown{
+  top:6px;
+
+}
+
+.custom-dropdown >>> .ui-dropdown-trigger{
+  margin-right:6px;
+
+}
+
+>>> .ui-dialog-titlebar-close {
+  display: none;
+    }
+
+ >>> .form-label-required:after {
+       content:"*";color:red;
+     }

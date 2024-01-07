@@ -1,0 +1,67 @@
+<div >
+<p-dialog header="Add a Text Component" modal="modal" showEffect="fade" width="600" responsive="true"
+          visible="true" id="textDialog" >
+  <form [formGroup]="textFieldForm">
+  <ul class="nav nav-pills">
+    <li role="presentation" [ngClass]="{active:isDisplayTabOn}">
+      <a (click)="onTextFieldTabClick('Display')">Display</a>
+    </li>
+    <li role="presentation" [ngClass]="{active:isValidationTabOn}"><a (click)="onTextFieldTabClick('Validations')">Validations</a></li>
+  </ul>
+    <div *ngIf="isDisplayTabOn">
+      <div class="form-group">
+        <label for="label" class="form-label-required">Label</label>
+        <input id="label" type="text" class="form-control"
+               formControlName="label" required [uniqueValue]="theAddQuestionsService.getQuestionLabels()">
+        <div *ngIf="textFieldForm.controls.label.dirty && !textFieldForm.controls.label.valid" class="alert alert-danger">
+          <div *ngIf="textFieldForm.controls.label.errors.required ">
+            Label is Required
+          </div>
+          <div *ngIf="textFieldForm.controls.label.errors.isNotUnique ">
+            Label should be unique
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Default_Value" class="col-sm-3 col-form-label">Default Value</label>
+          <input id="Default_Value" type="text" class="form-control"
+                 formControlName="defaultValue" >
+      </div>
+      <div class="form-group">
+        <label for="placeHolder" class="col-sm-3 col-form-label">Place Holder</label>
+        <input id="placeHolder" type="text" name="placeHolder" class="form-control"
+               formControlName="placeHolder">
+      </div>
+    </div>
+    <div *ngIf="isValidationTabOn" formGroupName="validations">
+      <div class="form-group">
+        <label for="Minimum_Length" class="col-sm-3 col-form-label">Minimum Length</label>
+          <input id="Minimum_Length" type="text" class="form-control"
+                 formControlName="minimumLengthValidation" validateNumeric
+                 >
+      <div *ngIf="textFieldForm.controls.validations.controls.minimumLengthValidation.errors && !textFieldForm.controls.validations.controls.minimumLengthValidation.errors.isANumber"
+             class="alert alert-danger">
+          Minimum Length should be Numeric
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="maximum_length" class="col-sm-3 col-form-label">Maximum Length</label>
+        <input id="maximum_length" type="text" class="form-control" formControlName="maximumLengthValidation" validateNumeric>
+        <div *ngIf="textFieldForm.controls.validations.controls.maximumLengthValidation.errors && !textFieldForm.controls.validations.controls.maximumLengthValidation.errors.isANumber"
+             class="alert alert-danger">
+          Maximum Length should be Numeric
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" class="btn btn-primary" (click)="onTextFieldSave()" [disabled]="!textFieldForm.valid">Save</button>
+        <button type="button" class="btn btn-primary" (click)="onTextFieldClose()">Close</button>
+      </div>
+    </footer>
+  </form>
+
+</p-dialog>
+</div>

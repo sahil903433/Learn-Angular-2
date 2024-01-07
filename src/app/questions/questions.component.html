@@ -1,0 +1,199 @@
+    <div class="container banner">
+
+      <h1 >Dynamic Form Builder</h1>
+    </div>
+
+<div class="container">
+  <div class="row inlineForm">
+    <form class="form-horizontal">
+      <div class="form-group ">
+        <label id="formNameSpan" class="col-sm-2 control-label">Form Name</label>
+        <div class="col-sm-9">
+        <input id="formName" type="text" name="formName" class="form-control" aria-describedby="formNameSpan">
+         </div>
+      </div>
+
+    </form>
+  </div>
+
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" id="MenuSide">
+        <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Form Components</h3>
+        </div>
+        <ul class="nav nav-sidebar">
+          <li>
+            <span class="btn btn-primary btn-block" title="Text Field" pDraggable="components"
+                  (onDragEnd)="dragComponentEnd(questionType.Text,$event)">Text </span>
+          </li>
+
+          <li>
+            <span class="btn btn-primary btn-block" title="Checkbox" pDraggable="components"
+                  (onDragEnd)="dragComponentEnd(questionType.CheckBox,$event)">Checkbox </span>
+
+          </li>
+          <li>
+            <span class="btn btn-primary btn-block" title="Check Box Group" pDraggable="components"
+                  (onDragEnd)="dragComponentEnd(questionType.CheckBoxGroup,$event)">Check Box Group</span>
+
+          </li>
+          <li>
+            <span class="btn btn-primary btn-block" title="Radio Button" pDraggable="components"
+                  (onDragEnd)="dragComponentEnd(questionType.RadioGroup,$event)">Radio Button Group</span>
+
+          </li>
+          <li>
+            <span class="btn btn-primary btn-block" title="Drop Down"
+                  pDraggable="components"  (onDragEnd)="dragComponentEnd(questionType.DropDown,$event)">Drop Down</span>
+
+          </li>
+        </ul>
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-9 main component-dropbox" >
+        <div class="row">
+          <div *ngIf="theAddQuestionsService.questions.length === 0">
+            <div class="jumbotron">
+              <p>Drag and Drop a Form Component</p>
+
+            </div>
+          </div>
+        <div *ngIf="theAddQuestionsService.questions.length > 0" >
+          <div *ngFor="let questionModel of theAddQuestionsService.questions;let i = index;" dragula="questionsContainer" >
+            <div [ngSwitch]="questionModel.questionType">
+            <div *ngSwitchCase="questionType.Text">
+              <div class="question-btn-block well" >
+                <div class="right-corner-btn btn-group">
+                <button type="button" class="btn btn-default " aria-label="Edit" (click)="editQuestion(questionModel)">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                  <button type="button" class="btn btn-default " aria-label="Delete" (click)="deleteQuestion(i)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </div>
+
+                <div class="container-fluid">
+                  <label for="questionLabel">{{questionModel.questionLabel}}</label>
+                  <input id="questionLabel" class="form-control" type="text" name="questionLabel"
+                         placeholder="{{questionModel.placeHolder}}">
+
+                </div>
+              </div>
+
+            </div>
+            <div *ngSwitchCase="questionType.CheckBox">
+              <div class="question-btn-block well" >
+                <div class="right-corner-btn btn-group">
+                  <button type="button" class="btn btn-default " aria-label="Edit" (click)="editQuestion(questionModel)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                  <button type="button" class="btn btn-default " aria-label="Delete" (click)="deleteQuestion(i)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </div>
+              <div class="checkbox">
+                <label> <input id="checkBoxQuestionLabel" type="checkbox" name="checkBoxQuestionLabel"
+                               checked="{{questionModel.defaultValue?'checked':''}}">{{questionModel.questionLabel}}</label>
+
+              </div>
+              </div>
+            </div>
+
+              <div *ngSwitchCase="questionType.DropDown">
+                <div class="question-btn-block well" >
+                  <div class="right-corner-btn btn-group">
+                    <button type="button" class="btn btn-default " aria-label="Edit" (click)="editQuestion(questionModel)">
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-default " aria-label="Delete" (click)="deleteQuestion(i)">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </div>
+                  <div class="custom-dropdown">
+                    <label >{{questionModel.questionLabel}}</label>
+                    <p-dropdown [options]="getSelectItemsArray(questionModel)" ></p-dropdown>
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div *ngSwitchCase="questionType.RadioGroup">
+                <div class="question-btn-block well" >
+                  <div class="right-corner-btn btn-group">
+                    <button type="button" class="btn btn-default " aria-label="Edit" (click)="editQuestion(questionModel)">
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-default " aria-label="Delete" (click)="deleteQuestion(i)">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </div>
+                  <div >
+                    <label >{{questionModel.questionLabel}}</label>
+                    <div *ngFor="let radioOption of questionModel.options" class="radio">
+                      <label>
+                        <input type="radio" [name]="questionModel.questionLabel" [id]="questionModel.questionLabel" [value]="radioOption.value">
+                       {{radioOption.key}}
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="questionType.CheckBoxGroup">
+                <div class="question-btn-block well" >
+                  <div class="right-corner-btn btn-group">
+                    <button type="button" class="btn btn-default " aria-label="Edit" (click)="editQuestion(questionModel)">
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-default " aria-label="Delete" (click)="deleteQuestion(i)">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </div>
+                  <div >
+                    <label >{{questionModel.questionLabel}}</label>
+                    <div *ngFor="let checkBoxOption of questionModel.options" class="radio">
+                      <label>
+                        <input type="checkbox" [name]="questionModel.questionLabel" [id]="questionModel.questionLabel" [value]="checkBoxOption.value">
+                        {{checkBoxOption.key}}
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        </div>
+
+      </div>
+      <div>
+
+      </div>
+      <div #dialogComponent>
+
+      </div>
+      <!--
+      <app-textfield-question [displayTextFieldDialog]="displayTextFieldDialog"
+                              (onClose)="closeTextFieldDialog()"
+       ></app-textfield-question>
+       -->
+      <!--
+      <app-checkbox-question [displayCheckBoxFieldDialog]="displayCheckBoxFieldDialog"
+                             (onClose)="closeCheckBoxFieldDialog()"></app-checkbox-question>
+-->
+      </div>
+  <div class="row">
+    <button type="button" class="btn-lg btn-primary pull-right"
+    >submit
+    </button>
+  </div>
+
+</div>

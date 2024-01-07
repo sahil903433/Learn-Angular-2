@@ -1,0 +1,100 @@
+<p-dialog header="Add a CheckBoxGroup Component" visible="true" modal="modal" showEffect="fade" width="600" responsive="true" closable="false"
+          id="checkBoxGroupDialog">
+  <form [formGroup]="checkBoxGroupForm">
+    <ul class="nav nav-pills">
+      <li role="presentation" [ngClass]="{active:isDisplayTabOn}">
+        <a (click)="onCheckBoxGroupTabClick('Display')">Display</a>
+      </li>
+      <li role="presentation" [ngClass]="{active:isValidationTabOn}"><a (click)="onCheckBoxGroupTabClick('Validations')">Validations</a></li>
+
+    </ul>
+
+    <div *ngIf="isDisplayTabOn">
+      <div class="form-group ">
+        <label for="label" class="form-label-required">Label</label>
+        <input id="label" type="text" name="label" class="form-control"
+               formControlName="label" required [uniqueValue]="theAddQuestionsService.getQuestionLabels()">
+        <div *ngIf="checkBoxGroupForm.controls.label.dirty && !checkBoxGroupForm.controls.label.valid" class="alert alert-danger">
+
+          <div *ngIf="checkBoxGroupForm.controls.label.errors.required ">
+            Label is Required
+          </div>
+          <div *ngIf="checkBoxGroupForm.controls.label.errors.isNotUnique ">
+            Label should be unique
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" formArrayName="options" atLeastOneRequired>
+        <label class="form-label-required">Options</label>
+        <div *ngIf="checkBoxGroupForm.controls.options.errors&&!checkBoxGroupForm.controls.options.errors.atLeastOne " class="alert alert-danger">
+          At least one option is required
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th class="col-xs-5">
+              Label
+            </th>
+            <th class="col-xs-5">
+              Value
+            </th>
+            <th class="col-xs-2">
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let option of checkBoxGroupForm.controls.options.controls;let i = index;" [formGroupName]="i">
+            <td class="col-xs-5">
+              <input type="text" name="label" class="form-control"
+                     formControlName="Key" >
+            </td>
+            <td class="col-xs-5">
+              <input type="text" name="label" class="form-control"
+                     formControlName="Value" >
+            </td>
+            <td class="col-xs-2 btn-group">
+              <button type="button" class="btn btn-default " aria-label="Delete Option" (click)="deleteOption(i)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+
+            </td>
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="container-fluid" >
+          <button type="button" class="btn btn-primary " style="margin-top:6px;" aria-label="Add Option" (click)="addOption()">
+            Add Option
+          </button>
+        </div>
+
+      </div>
+
+
+    </div>
+    <div *ngIf="isValidationTabOn" formGroupName="validations">
+      <div class="form-group col-sm-offset-2">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" formControlName="requiredValidation"> Required
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" class="btn btn-primary" (click)="onCheckBoxGroupFieldSave()" [disabled]="!checkBoxGroupForm.valid">Save</button>
+        <button type="button" class="btn btn-primary" (click)="onCheckBoxGroupFieldClose()">Close</button>
+      </div>
+    </footer>
+
+  </form>
+
+
+</p-dialog>
+
